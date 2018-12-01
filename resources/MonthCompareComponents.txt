@@ -1,0 +1,8 @@
+S.cust as CUST, S.month as MONTH, count(z.S.quant) as COUNT
+sales S
+S.year=1997
+S.cust, S.month
+x,y,z
+x.S.cust = S.cust and x.S.month = S.month-1, y.S.cust = S.cust and y.S.month = S.month+1, z.S.cust = S.cust and z.S.month = S.month and z.S.quant>avg(x.S.quant) and z.S.quant<avg(y.S.quant)
+count(z.S.quant)>0
+S.cust, S.month

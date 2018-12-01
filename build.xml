@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="emf-query-evaluation-engine">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="test-output"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="10"/>
+    <property name="source" value="10"/>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="externalJars/org.junit.jupiter.api_5.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.jupiter.engine_5.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.jupiter.migrationsupport_5.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.jupiter.params_5.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.platform.commons_1.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.platform.engine_1.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.platform.launcher_1.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.platform.runner_1.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.platform.suite.api_1.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.junit.vintage.engine_5.1.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.opentest4j_1.0.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/org.apiguardian_1.0.0.v20180327-1502.jar"/>
+        <pathelement location="externalJars/junit.jar"/>
+        <pathelement location="externalJars/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
+    <path id="emf-query-evaluation-engine.classpath">
+        <pathelement location="target"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.Application.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.CompositeEntity.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.EvaluationEngine.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.ParserTest.compareMonthSql.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.ParserTest.monthPercentageSql.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.ParserTest.noAggerigateSql (1).classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.ParserTest.parseMultiTableSQLTest.classpath">
+        <path refid="emf-query-evaluation-engine.classpath"/>
+        <pathelement location="externalJars/javapoet-1.11.1.jar"/>
+        <pathelement location="externalJars/postgresql-42.2.2.jar"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target"/>
+        <copy includeemptydirs="false" todir="target">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target">
+            <fileset dir="test">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target">
+            <fileset dir="resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="false" debuglevel="${debuglevel}" nowarn="true" destdir="target" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="test"/>
+            <src path="resources"/>
+            <classpath refid="emf-query-evaluation-engine.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="Application">
+        <java classname="main.Application" failonerror="true" fork="yes">
+            <classpath refid="run.Application.classpath"/>
+        </java>
+    </target>
+    <target name="CompositeEntity">
+        <java classname="main.generated.CompositeEntity" failonerror="true" fork="yes">
+            <classpath refid="run.CompositeEntity.classpath"/>
+        </java>
+    </target>
+    <target name="EvaluationEngine">
+        <java classname="main.generated.EvaluationEngine" failonerror="true" fork="yes">
+            <classpath refid="run.EvaluationEngine.classpath"/>
+        </java>
+    </target>
+    <target name="ParserTest.compareMonthSql">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ParserTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ParserTest.compareMonthSql.classpath"/>
+        </junit>
+    </target>
+    <target name="ParserTest.monthPercentageSql">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ParserTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ParserTest.monthPercentageSql.classpath"/>
+        </junit>
+    </target>
+    <target name="ParserTest.noAggerigateSql (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ParserTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ParserTest.noAggerigateSql (1).classpath"/>
+        </junit>
+    </target>
+    <target name="ParserTest.parseMultiTableSQLTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ParserTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ParserTest.parseMultiTableSQLTest.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
